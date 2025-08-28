@@ -16,4 +16,8 @@ WORKDIR /mnt/volume
 COPY entry.sh /entry.sh
 RUN chmod +x /entry.sh
 
-CMD ["/entry.sh"]
+EXPOSE $PORT
+
+RUN echo $CREDENTIAL > /tmp/debug
+
+CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT -c $USERNAME:$PASSWORD /bin/bash"]
