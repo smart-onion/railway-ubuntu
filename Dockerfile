@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     debootstrap sudo curl wget nano git \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt install openssh-server -y
+
 # Make sure we always have a place to mount Railway volume
 RUN mkdir -p /mnt/volume
 
