@@ -1,5 +1,8 @@
 [build]
 builder = "DOCKERFILE"
 
+[deploy]
+startCommand = "bash"
+
 [volumes]
-system = "/mnt/volume"
+home = "/home"
