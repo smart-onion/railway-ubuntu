@@ -1,0 +1,9 @@
+[build]
+builder = "DOCKER"  # Build using Dockerfile
+
+[deploy]
+startCommand = "n8n"
+
+[volumes]
+  [volumes.n8n_data]
+  mountPath = "/home/node/.n8n"
