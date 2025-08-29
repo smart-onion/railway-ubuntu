@@ -1,25 +1,17 @@
-FROM ubuntu:22.04
+# Use the official n8n image
+FROM n8nio/n8n:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Create directory for persistent data
+RUN mkdir -p /home/node/.n8n
 
-# Install base tools + debootstrap
-RUN apt-get update && apt-get install -y \
-    debootstrap sudo curl wget nano git \
-    && rm -rf /var/lib/apt/lists/*
+# Set working directory
+WORKDIR /home/node
 
-RUN apt install openssh-server -y
+# Mark the n8n data folder as a volume (so you can map n8n_data)
+VOLUME ["/home/node/.n8n"]
 
-# Make sure we always have a place to mount Railway volume
-RUN mkdir -p /mnt/volume
+# Expose default n8n port
+EXPOSE 5678
 
-WORKDIR /mnt/volume
-
-# Entry script: if Ubuntu not installed, install it into /mnt/volume/rootfs
-COPY entry.sh /entry.sh
-RUN chmod +x /entry.sh
-
-EXPOSE $PORT
-
-RUN echo $CREDENTIAL > /tmp/debug
-
-CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT -c $USERNAME:$PASSWORD /bin/bash"]
+# Start n8n
+CMD ["n8n"]
